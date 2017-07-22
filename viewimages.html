@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>View Images</title>
+</head>
+<body>
+<div><img width="500px" height="500px" id="picture" src=""></div>
+<div>
+	<!--button id="start" onclick="setInterval(image_display, 3000)">Start</button-->
+	<button id="stop" onclick="stop()">Stop</button>
+</div>
+	<script type="text/javascript">
+		var id = 0;
+		var imageVar = setInterval(image_display, 3000);
+
+		function image_display(){
+			id += 1;
+			var xhttp = new XMLHttpRequest();
+			 xhttp.onreadystatechange = function() {
+    			if (this.readyState == 4 && this.status == 200) {
+      				if (this.responseText == 'Not found') {
+      					image_display();
+      				}
+      				else{
+      					document.getElementById("picture").src = this.responseText;
+      				}
+    			}
+  			};
+  			xhttp.open("GET", "viewimage.php/?id="+id, true);
+  			xhttp.send();
+		}
+
+		function stop(){
+			id = 0;
+			clearInterval(imageVar);
+		}
+		
+	</script>
+</body>
+</html>
